@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
+// import {Button} from 'react-bootstrap'
 
 class ShortUrls extends Component {
 	constructor(props) {
@@ -24,7 +25,12 @@ class ShortUrls extends Component {
 				this.setState({
 					short_url: response.data.short_url
 				})
+				this.props.getUrls()
+				this.setState({
+					url: ''
+				})
 			})
+
 			.catch(error =>{
 				console.log(error)
 			})
@@ -33,20 +39,22 @@ class ShortUrls extends Component {
 	render() {
 		const { url } = this.state;
 		return (
-			<div>
+			<div className="container" style={{margin: "10%"}}>
 				<form onSubmit={this.submitHandler}>
 					<div>
+						<span>Enter Url:  </span>
 						<input 
 							type='text' 
 							name='url'
 							value={url} 
 							onChange={this.changeHandler}
 						/>
-					</div>
-					<button type='submit'>submit</button>
+					</div> <br/>
+					<button type='submit' className="btn btn-success">submit</button>
 				</form>
+
 				<div>
-					<p>Short Url: {this.state.short_url}</p>
+					{/* <p>Short Url: {this.state.short_url}</p> */}
 				</div>
 			</div>
 		);

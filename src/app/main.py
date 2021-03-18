@@ -14,6 +14,7 @@ app = FastAPI()
 
 origins = [
     "http://127.0.0.1:3000",
+    "http://localhost:3000/"
 ]
 
 app.add_middleware(
@@ -34,7 +35,7 @@ def get_db():
         db.close()
 
 class Url(BaseModel):
-    url: str
+    url: HttpUrl
 
 def hash_url(original_url: str, timestamp: float, db: Session = Depends(get_db)):
     data = f"{original_url}{timestamp}"
@@ -60,9 +61,11 @@ def url_shortener(url: Url, db: Session = Depends(get_db)):
 
 @app.get("/api/get_shortened_urls")
 def get_shortened_urls(db: Session = Depends(get_db)):
-    return db.query(UrlShortenerModel).all()
+    l = db.query(UrlShortenerModel).all()
+    l = l[::-1]
+    return l
 
-@app.get("/api/{short_url}")
+@app.get("/{short_url}")
 def redirect_url(short_url: str, db: Session = Depends(get_db)):
     url_obj = db.query(UrlShortenerModel).filter_by(short_url=short_url).first()
 
