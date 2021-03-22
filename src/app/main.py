@@ -1,4 +1,4 @@
-import models
+from . import models
 from datetime import datetime, timezone
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
