@@ -96,3 +96,8 @@ def delete_url(url_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {'status': 'url deleted'}
+
+
+@app.get("/")
+def home():
+    return {'info': 'Hello!!!'}
