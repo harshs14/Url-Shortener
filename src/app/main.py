@@ -40,7 +40,7 @@ class Url(BaseModel):
     url: HttpUrl
 
 
-async def hash_url(original_url: str, timestamp: float, db: Session = Depends(get_db)):
+def hash_url(original_url: str, timestamp: float, db: Session = Depends(get_db)):
     data = f"{original_url}{timestamp}"
     short_url = md5(data.encode()).hexdigest()[:7]
 
@@ -51,7 +51,7 @@ async def hash_url(original_url: str, timestamp: float, db: Session = Depends(ge
 
 
 @app.post("/api/url_shortener")
-async def url_shortener(url: Url, db: Session = Depends(get_db)):
+def url_shortener(url: Url, db: Session = Depends(get_db)):
     # url_dict = url.dict()
 
     timestamp = datetime.now().replace(tzinfo=timezone.utc).timestamp()
@@ -66,14 +66,14 @@ async def url_shortener(url: Url, db: Session = Depends(get_db)):
 
 
 @app.get("/api/get_shortened_urls")
-async def get_shortened_urls(db: Session = Depends(get_db)):
+def get_shortened_urls(db: Session = Depends(get_db)):
     l = db.query(UrlShortenerModel).all()
     l = l[::-1]
     return l
 
 
 @app.get("/{short_url}")
-async def redirect_url(short_url: str, db: Session = Depends(get_db)):
+def redirect_url(short_url: str, db: Session = Depends(get_db)):
     url_obj = db.query(UrlShortenerModel).filter_by(
         short_url=short_url).first()
 
@@ -87,7 +87,7 @@ async def redirect_url(short_url: str, db: Session = Depends(get_db)):
 
 
 @app.delete("/api/delete_url/{url_id}")
-async def delete_url(url_id: int, db: Session = Depends(get_db)):
+def delete_url(url_id: int, db: Session = Depends(get_db)):
     url_obj = db.query(UrlShortenerModel).filter_by(id=url_id).first()
     if not url_obj:
         raise HTTPException(status_code=404, detail="Url does not exist!!!")
