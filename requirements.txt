@@ -2,7 +2,6 @@ aiofiles==0.5.0
 aniso8601==7.0.0
 async-exit-stack==1.0.1
 async-generator==1.10
-autopep8 @ file:///tmp/build/80754af9/autopep8_1615918855173/work
 certifi==2020.12.5
 chardet==4.0.0
 click==7.1.2
@@ -21,7 +20,6 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 orjson==3.5.1
 promise==2.3
-pycodestyle @ file:///tmp/build/80754af9/pycodestyle_1615748559966/work
 pydantic==1.8.1
 python-dotenv==0.15.0
 python-multipart==0.0.5
@@ -31,7 +29,6 @@ Rx==1.6.1
 six==1.15.0
 SQLAlchemy==1.4.0
 starlette==0.13.6
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
 typing-extensions==3.7.4.3
 ujson==3.2.0
 urllib3==1.26.3
