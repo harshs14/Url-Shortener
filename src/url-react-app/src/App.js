@@ -15,7 +15,7 @@ class App extends Component {
     }
 
 	getUrls = () => {
-		fetch("http://127.0.0.1:8000/api/get_shortened_urls")
+		fetch("https://url-shortener-app-v1.herokuapp.com/api/get_shortened_urls")
             .then(res => res.json())
             .then(json => {
                 this.setState({

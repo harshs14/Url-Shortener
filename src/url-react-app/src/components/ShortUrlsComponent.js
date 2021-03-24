@@ -19,7 +19,7 @@ class ShortUrls extends Component {
 	submitHandler = (e) => {
 		e.preventDefault()
 		console.log(this.state)
-		axios.post('http://127.0.0.1:8000/api/url_shortener', this.state,)
+		axios.post('https://url-shortener-app-v1.herokuapp.com/api/url_shortener', this.state,)
 			.then(response => {
 				console.log(response.data.short_url)
 				this.setState({
