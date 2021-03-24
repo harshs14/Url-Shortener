@@ -13,7 +13,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
-class UrlShortenerModel(database.Base):
+class UrlShortenerModel(Base):
     __tablename__ = "url_shortener_model"
 
     id = Column(Integer, primary_key=True, index=True)
