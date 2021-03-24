@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 # from database import SessionLocal, engine
-from . import database
+# from . import database
 # import database
 from pydantic import HttpUrl
 from hashlib import md5
@@ -28,11 +28,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-models.Base.metadata.create_all(bind=database.engine)
+models.Base.metadata.create_all(bind=models.engine)
 
 
 def get_db():
-    db = database.SessionLocal()
+    db = models.SessionLocal()
     try:
         yield db
     finally:
