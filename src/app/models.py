@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, String, DateTime
-from database import Base
+# from database import Base
+from . import Base
 
-class UrlShortenerModel(Base):
+
+class UrlShortenerModel(database.Base):
     __tablename__ = "url_shortener_model"
 
     id = Column(Integer, primary_key=True, index=True)
