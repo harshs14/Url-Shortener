@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 # from database import Base
-from . import Base
+from . import database
 
 
 class UrlShortenerModel(database.Base):
