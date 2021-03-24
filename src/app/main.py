@@ -1,11 +1,14 @@
-import models
+# import models
+from . import models
 from datetime import datetime, timezone
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
+# from database import SessionLocal, engine
+from . import database
+# import database
 from pydantic import HttpUrl
 from hashlib import md5
-from models import UrlShortenerModel
+# from models import UrlShortenerModel
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,11 +28,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=database.engine)
 
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     finally:
@@ -57,7 +60,7 @@ def url_shortener(url: Url, db: Session = Depends(get_db)):
     timestamp = datetime.now().replace(tzinfo=timezone.utc).timestamp()
     short_url = hash_url(url.url, timestamp)
 
-    short_url_obj = UrlShortenerModel(
+    short_url_obj = models.UrlShortenerModel(
         original_url=url.url, short_url=short_url)
     db.add(short_url_obj)
     db.commit()
@@ -67,14 +70,14 @@ def url_shortener(url: Url, db: Session = Depends(get_db)):
 
 @app.get("/api/get_shortened_urls")
 def get_shortened_urls(db: Session = Depends(get_db)):
-    l = db.query(UrlShortenerModel).all()
+    l = db.query(models.UrlShortenerModel).all()
     l = l[::-1]
     return l
 
 
 @app.get("/{short_url}")
 def redirect_url(short_url: str, db: Session = Depends(get_db)):
-    url_obj = db.query(UrlShortenerModel).filter_by(
+    url_obj = db.query(models.UrlShortenerModel).filter_by(
         short_url=short_url).first()
 
     if not url_obj:
@@ -88,7 +91,7 @@ def redirect_url(short_url: str, db: Session = Depends(get_db)):
 
 @app.delete("/api/delete_url/{url_id}")
 def delete_url(url_id: int, db: Session = Depends(get_db)):
-    url_obj = db.query(UrlShortenerModel).filter_by(id=url_id).first()
+    url_obj = db.query(models.UrlShortenerModel).filter_by(id=url_id).first()
     if not url_obj:
         raise HTTPException(status_code=404, detail="Url does not exist!!!")
 
